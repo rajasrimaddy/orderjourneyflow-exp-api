@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="orderjourneyflowFlow" doc:id="5db1ff22-7530-43ef-9003-7e808cd20d1b" >
+		<http:listener doc:name="Listener" doc:id="e1821719-acd0-48be-bd85-7f6b536d0795" path="/"/>
+		<logger level="INFO" doc:name="Logger" doc:id="d9533612-7447-4230-954f-af1cbe444991" message="I got request from AEM webpage"/>
+		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="358bde91-bbb2-44fa-ba8d-f3fc43da824c" mimeType="application/java"/>
+		<logger level="INFO" doc:name="Logger" doc:id="bf7b7309-253f-4775-8be4-32be719f219a" />
+		<http:request method="GET" doc:name="Request" doc:id="c51b5e51-250f-4cf0-9f93-dc7229f6cdd6" path="/"/>
+		<logger level="INFO" doc:name="Logger" doc:id="9b6afeb0-8fc3-4fce-ac0a-ca97a842381b" />
+		<ee:transform doc:name="Transform Message" doc:id="38dfb488-805c-4cd7-bda8-db1384eabc2e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+{
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="1af52b90-814f-4611-9324-cffd2dd8df1d" />
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="03cbd8d7-7a75-45ab-8b82-62a8bce0e6b3" />
+		</error-handler>
+	</flow>
+</mule>
